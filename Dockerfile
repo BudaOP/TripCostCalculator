@@ -1,17 +1,25 @@
-# Use Maven image to build the application
-FROM maven:latest
+# Stage 1: Build the application using Maven
+FROM maven:3.8.5 AS build
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml to download dependencies first (caching optimization)
-COPY pom.xml /app/
+# Copy project files
+COPY pom.xml .
+COPY src ./src
 
-# Copy the entire project to the container
-COPY . /app/
+# Build the project (skip tests to speed up the build)
+RUN mvn clean package -DskipTests
 
-# Package the application using Maven
-RUN mvn package
+# Stage 2: Create a lightweight Java runtime container
+FROM openjdk:21-jdk-slim
 
-# Run the main class from the built JAR
-CMD ["java", "-jar", "target/tripcalaculator.jar"]
+WORKDIR /app
+
+# Copy only the built JAR file from the first stage
+COPY --from=build /app/target/tripcalaculator.jar app.jar
+
+# Expose application port
+EXPOSE 8080
+
+# Set entrypoint to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
