@@ -1,11 +1,10 @@
 pipeline {
     agent any
-    environment {
-        // Docker Hub credentials and repo details
-        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
+     environment {
+DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         DOCKERHUB_REPO = 'ibudaa/tripcostcalculator'
         DOCKER_IMAGE_TAG = 'latest'
-    }
+        }
     stages {
         stage('Checkout') {
             steps {
@@ -14,67 +13,49 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
             }
         }
         stage('Code Coverage') {
             steps {
-                bat 'mvn jacoco:report'
+                sh 'mvn jacoco:report'
             }
         }
-        stage('Publibat Test Results') {
+        stage('Publish Test Results') {
             steps {
-                junit '**/target/surefire-reports/*.xml'
+                junit '*/target/surefire-reports/.xml'
             }
         }
-        stage('Publibat Coverage Report') {
+        stage('Publish Coverage Report') {
             steps {
                 jacoco()
             }
         }
+
         stage('Build Docker Image') {
             steps {
+                // Ensure Docker is using the default context
                 script {
-                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}", ".")
+                    sh 'docker context use default' // Switch to default context
+                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
                 }
             }
         }
-        stage('Pubat Docker Image to Docker Hub') {
+
+        stage('Push Docker Image to Docker Hub') {
             steps {
+                // Push Docker image to Docker Hub
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").pubat()
+                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
                     }
                 }
             }
-        }
-stage('Deploy to Server') {  
-    steps {
-        script {
-            bat '''
-            # Stop and remove any existing container
-            docker stop tripcostcalculator || true
-            docker rm tripcostcalculator || true
-            
-            # Run the new container on port 8081
-            docker run -d --name tripcostcalculator -p 8081:8080 ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
-            '''
-        }
-    }
-}
-    }
-
-    post {
-        success {
-            echo 'Pipeline execution successful!'
-        }
-        failure {
-            echo 'Pipeline failed! Check the logs for details.'
         }
     }
 }
