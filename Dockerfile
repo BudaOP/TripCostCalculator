@@ -1,10 +1,10 @@
 # Stage 1: Build the application using Maven
-FROM --platform=linux/amd64 maven:3.8.8-eclipse-temurin-17 AS build
+FROM --platform=linux/amd64 maven:3.9.6-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
 # Copy project files
-COPY pom.xml .
+COPY pom.xml . 
 COPY src ./src
 
 # Build the project (skip tests to speed up the build)
@@ -18,8 +18,9 @@ WORKDIR /app
 # Copy only the built JAR file from the first stage
 COPY --from=build /app/target/tripcalaculator.jar app.jar
 
-# Expose application port
-EXPOSE 8080
+# Expose application port (Change to 8081 if needed)
+EXPOSE 8081
 
-# Set entrypoint to run the application
-ENTRYPOINT ["java", "-jar", "tripcalaculator.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "/app/tripcalaculator.jar"]
+

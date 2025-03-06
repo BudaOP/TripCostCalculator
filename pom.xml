@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>untitled</artifactId>
+    <artifactId>tripcostcalculator</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -13,21 +13,22 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <build>
         <finalName>tripcalaculator</finalName>
         <plugins>
-            <!-- Compiler Plugin for setting the Java version -->
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.10.1</version> <!-- ✅ Latest stable version -->
                 <configuration>
                     <source>21</source>
                     <target>21</target>
                 </configuration>
             </plugin>
 
-            <!-- JAR Plugin for configuring the manifest file -->
+            <!-- JAR Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -35,20 +36,17 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>TripCostCalculator</mainClass> <!-- Correct main class -->
+                            <mainClass>org.example.TripCostCalculator</mainClass> <!-- ✅ Check the actual main class -->
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
 
-
-            <!-- Other plugins like compiler, jar, jacoco... -->
-
-            <!-- Surefire Plugin for running tests -->
+            <!-- Surefire Plugin for tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version> <!-- Latest stable version -->
+                <version>3.2.5</version>
                 <configuration>
                     <includes>
                         <include>**/Test*.java</include>
@@ -58,8 +56,7 @@
                 </configuration>
             </plugin>
 
-
-            <!-- JaCoCo Plugin for code coverage -->
+            <!-- JaCoCo Plugin for Code Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -86,17 +83,10 @@
     <dependencies>
         <!-- JUnit for testing -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.11.1</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>
