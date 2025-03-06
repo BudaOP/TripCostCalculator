@@ -15,7 +15,7 @@
     </properties>
 
     <build>
-        <finalName>tripcalaculator</finalName>
+        <finalName>tripcostcalculator</finalName>
         <plugins>
             <!-- Compiler Plugin -->
             <plugin>
@@ -36,7 +36,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.TripCostCalculator</mainClass> <!-- ✅ Check the actual main class -->
+                            <mainClass>TripCostCalculator</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

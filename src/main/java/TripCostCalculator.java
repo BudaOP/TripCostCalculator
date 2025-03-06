@@ -18,8 +18,9 @@ public class TripCostCalculator {
         System.out.print("Enter the fuel price per liter: ");
         double fuelPrice = scanner.nextDouble();
 
-        // Define fuel consumption rate (liters per 100 km)
-        double fuelConsumptionPer100Km = 5.0; // Example: 5 liters per 100 km
+                // Ask user for the consumption rate
+                System.out.print("Enter the comsumption rate: ");
+                double fuelConsumptionPer100Km = scanner.nextDouble();
 
         // Calculate total cost of the trip
         double totalCost = calculateTripCost(kilometers, fuelPrice, fuelConsumptionPer100Km);
