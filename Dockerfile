@@ -22,4 +22,4 @@ COPY --from=build /app/target/tripcalaculator.jar app.jar
 EXPOSE 8080
 
 # Set entrypoint to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "tripcalaculator.jar"]
