@@ -9,30 +9,30 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/BudaOP/TripCostCalculator.git'
+                git branch: 'main', url: 'https://github.com/BudaOP/TripCostCalculator.git'
             }
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         stage('Code Coverage') {
             steps {
-                sh 'mvn jacoco:report'
+                bat 'mvn jacoco:report'
             }
         }
-        stage('Publish Test Results') {
+        stage('Publibat Test Results') {
             steps {
                 junit '**/target/surefire-reports/*.xml'
             }
         }
-        stage('Publish Coverage Report') {
+        stage('Publibat Coverage Report') {
             steps {
                 jacoco()
             }
@@ -44,11 +44,11 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image to Docker Hub') {
+        stage('Pubat Docker Image to Docker Hub') {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
+                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").pubat()
                     }
                 }
             }
@@ -56,7 +56,7 @@ pipeline {
 stage('Deploy to Server') {  
     steps {
         script {
-            sh '''
+            bat '''
             # Stop and remove any existing container
             docker stop tripcostcalculator || true
             docker rm tripcostcalculator || true
