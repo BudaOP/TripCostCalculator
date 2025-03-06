@@ -13,17 +13,17 @@ DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         stage('Code Coverage') {
             steps {
-                sh 'mvn jacoco:report'
+                bat 'mvn jacoco:report'
             }
         }
         stage('Publish Test Results') {
@@ -41,7 +41,7 @@ DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
             steps {
                 // Ensure Docker is using the default context
                 script {
-                    sh 'docker context use default' // Switch to default context
+                    bat 'docker context use default' // Switch to default context
                     docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
                 }
             }
