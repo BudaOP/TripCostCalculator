@@ -1,5 +1,5 @@
 # Stage 1: Build the application using Maven
-FROM maven:3.8.5 AS build
+FROM --platform=linux/amd64 maven:3.8.8-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
