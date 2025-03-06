@@ -22,5 +22,5 @@ COPY --from=build /app/target/tripcalaculator.jar app.jar
 EXPOSE 8081
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "/app/tripcalaculator.jar"]
+ENTRYPOINT ["java", "-jar", "tripcalaculator.jar"]
 
